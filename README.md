@@ -1,5 +1,3 @@
-Aquí tienes un ejemplo profesional y bien estructurado de un **README** para presentar tu prueba técnica:
-
 ---
 
 # **Prueba Técnica - Gestión de Clientes**
