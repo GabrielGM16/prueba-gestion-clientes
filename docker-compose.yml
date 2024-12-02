@@ -1,0 +1,40 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    environment:
+      POSTGRES_USER: tecnica
+      POSTGRES_PASSWORD: linux
+      POSTGRES_DB: prueba
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend-prueba
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_URL: postgresql://tecnica:linux@postgres:5432/prueba
+    depends_on:
+      - postgres
+    command: >
+      sh -c "
+      npx prisma migrate deploy &&
+      npm run start:prod
+      "
+
+  frontend:
+    build:
+      context: ./front-prueba
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
